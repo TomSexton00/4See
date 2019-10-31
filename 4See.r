@@ -655,7 +655,7 @@ refresh.gui = function() {
 	hscale = 1.99
 	vscale = 1.99
 	if(is.null(browse$env$plot)) {
-		options(show.error.messages = FALSE) #
+		options(show.error.messages = FALSE) 
 		browse$env$plot = try(tkrplot(browse, plot.4c(data=data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax,settings=settings),hscale=hscale,vscale=vscale),silent=TRUE)
 		tkgrid(browse$env$plot)
 	}
