@@ -613,7 +613,8 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 				inttab=keep[[i]]$bed
 				inttab=inttab[inttab$chr==cis.chrom & inttab$start>=x.min & inttab$end<=x.max,]
 				intcol=keep[[i]]$color
-				rect(inttab$start,rep(0,dim(inttab)[1]),inttab$end,rep(plot.ymax,dim(inttab)[1]),border=intcol)
+				points(inttab$start_OE,inttab$N,col=intcol,pch=19)
+				#rect(inttab$start,rep(0,dim(inttab)[1]),inttab$end,rep(plot.ymax,dim(inttab)[1]),border=intcol)
 			}
 		}
 		intcols=c()
