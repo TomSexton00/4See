@@ -654,16 +654,18 @@ refresh.gui = function() {
 	plot.ymax = as.numeric(tclvalue(tkget(plot.ymax)))
 	hscale = 1.99
 	vscale = 1.99
+	options(show.error.messages = FALSE) 
 	if(is.null(browse$env$plot)) {
-		options(show.error.messages = FALSE) 
-		browse$env$plot = try(tkrplot(browse, plot.4c(data=data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax,settings=settings),hscale=hscale,vscale=vscale),silent=TRUE)
+		
+		browse$env$plot =tkrplot(browse, plot.4c(data=data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax,settings=settings),hscale=hscale,vscale=vscale)
 		tkgrid(browse$env$plot)
 	}
 	else {
-		options(show.error.messages = FALSE)
-		try(tkrreplot(browse$env$plot, plot.4c(data=data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax,settings=settings),hscale=hscale,vscale=vscale),silent=TRUE)
+		
+		tkrreplot(browse$env$plot, plot.4c(data=data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax,settings=settings),hscale=hscale,vscale=vscale)
 		tkgrid(browse$env$plot)
 	}
+	options(show.error.messages = TRUE) 
 }
 
 ########################################################################################################################
