@@ -557,6 +557,9 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 	if(!is.null(genome)) {
 		n.plots=n.plots+1
 	}
+	if(length(ints)>0) {
+		n.plots=n.plots+1
+	}
 	if(n.plots>1) {
 		layout(matrix(1:n.plots,ncol=1,nrow=n.plots),heights=c(20,rep(10,n.plots-1)))
 	}
@@ -621,7 +624,9 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 		for (i in 1:length(keep)) {
 			intcols=c(intcols,keep[[i]]$color)
 		}
-		legend("left",inset=0.05,names(keep),col=intcols,lty=1.5,title="Interactions")
+		par(mar=c(0,2,0,2)+0.1)
+		plot.new()	
+		legend("center",inset=0.05,names(keep),col=intcols,lty=1.5,title="Interactions")
 	}
 	n.plots=n.plots-1
 	#second plot - gene track
