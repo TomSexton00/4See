@@ -449,6 +449,7 @@ parking=function(left,right) {
 #Gene plot sub
 plot.genes=function(genome,x.min,x.max) {
 	y_plot=parking(genome$Start,genome$End)
+	par(mar=c(0,2,0,2)+0.1)
 	plot(c(x.min,x.max),c(1,-max(y_plot)-0.5),col="white",ylab="",xlab="",fg="white",col.axis="white",xaxs="i",yaxs="i")
 	arrowHeads=pretty(x.min:x.max,n=50)
 	for(i in 1:dim(genome)[1]) {
@@ -501,6 +502,7 @@ plot.tracks=function(chr,x.min,x.max, tracks) {
 		plotlim=max(c(plotlim,score(tmp)))
 	}
 	for (i in 1:length(tmps)) {
+		par(mar=c(0,2,0,2)+0.1)
 		plot.new()
 		plot.window(xlim=c(x.min,x.max),ylim=c(0,plotlim),xaxs="i",yaxs="i",xaxt="n",yaxt="n",xlab="",ylab="")
 		segments(start(tmps[[i]]),0,end(tmps[[i]]),score(tmps[[i]]),col=epigenome[[tracks[i]]]$color)
@@ -592,6 +594,8 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 			}
 			avg=rowMeans(tab)
 			lines(x=table$coord, y=caTools::runmean(avg,k=win.smooth,endrule="mean",align="center"),col=settings[[i]]$color,lwd=2)
+			table=cbind(table,caTools::runmean(avg,k=win.smooth,endrule="mean",align="center"))
+			assign("table", "table", envir = .GlobalEnv)
 		}
 	}
 	plotnames=c()
@@ -616,7 +620,7 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 				inttab=keep[[i]]$bed
 				inttab=inttab[inttab$chr==cis.chrom & inttab$start>=x.min & inttab$end<=x.max,]
 				intcol=keep[[i]]$color
-				arrows(inttab$start_OE,inttab$N+2,inttab$start_OE,inttab$N,col=intcol,length=0.08,lwd=2)
+				arrows(inttab$start,table[table[,1]%in%inttab$start,3]+(table[table[,1]%in%inttab$start,3]/10),inttab$start,table[table[,1]%in%inttab$start,3],col=intcol,length=0.08,lwd=2)
 				#points(inttab$start_OE,inttab$N,col=intcol,pch=19)
 				#rect(inttab$start,rep(0,dim(inttab)[1]),inttab$end,rep(plot.ymax,dim(inttab)[1]),border=intcol)
 			}
