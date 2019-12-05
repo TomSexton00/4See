@@ -559,11 +559,13 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 	if(!is.null(genome)) {
 		n.plots=n.plots+1
 	}
-	if(length(ints)>0) {
-		n.plots=n.plots+1
-	}
 	if(n.plots>1) {
-		layout(matrix(1:n.plots,ncol=1,nrow=n.plots),heights=c(20,rep(10,n.plots-1)))
+		if(length(ints)>0) {
+			n.plots=n.plots+1
+			layout(matrix(1:n.plots,ncol=1,nrow=n.plots),heights=c(20,5,rep(10,n.plots-2)))
+		} else {
+			layout(matrix(1:n.plots,ncol=1,nrow=n.plots),heights=c(20,rep(10,n.plots-1)))
+		}
 	}
 	#first plot - 4C
 	x.min=min(table$coord)
@@ -604,7 +606,9 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 		plotnames=c(plotnames,settings[[i]]$name)
 		plotcolors=c(plotcolors,settings[[i]]$color)
 	}
-	legend("topleft",inset=0.05,plotnames,col=plotcolors,lty=1.5,title="4C profile")
+	if(length(ints)==0) {
+		legend("topleft",inset=0.05,plotnames,col=plotcolors,lty=1.5,title="4C profile")
+	}
 	abline(v=vp.pos,col="black")
 
 	#Overlay interactions
@@ -620,9 +624,7 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 				inttab=keep[[i]]$bed
 				inttab=inttab[inttab$chr==cis.chrom & inttab$start>=x.min & inttab$end<=x.max,]
 				intcol=keep[[i]]$color
-				arrows(inttab$start,table[table[,1]%in%inttab$start,3]+(table[table[,1]%in%inttab$start,3]/10),inttab$start,table[table[,1]%in%inttab$start,3],col=intcol,length=0.08,lwd=2)
-				#points(inttab$start_OE,inttab$N,col=intcol,pch=19)
-				#rect(inttab$start,rep(0,dim(inttab)[1]),inttab$end,rep(plot.ymax,dim(inttab)[1]),border=intcol)
+				rect(inttab$start,rep(0,dim(inttab)[1]),inttab$end,rep(plot.ymax,dim(inttab)[1]),border=intcol)
 			}
 		}
 		intcols=c()
@@ -630,8 +632,9 @@ plot.4c = function(data,min.plot,max.plot,win.plot,win.smooth,baitname,plot.ymax
 			intcols=c(intcols,keep[[i]]$color)
 		}
 		par(mar=c(0,2,0,2)+0.1)
-		plot.new()	
-		legend("center",inset=0.05,names(keep),col=intcols,lty=1.5,title="Interactions")
+		plot.new()
+		legend("left",inset=0.05,plotnames,col=plotcolors,lty=1.5,title="4C profile")	
+		legend("right",inset=0.05,names(keep),col=intcols,lty=1.5,title="Interactions")
 	}
 	n.plots=n.plots-1
 	#second plot - gene track
